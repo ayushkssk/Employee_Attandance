@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Management System</title>
+    <link rel="stylesheet" href="leave-styles.css">
+    <script src="leave-script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="leave-stats">
+            <div class="stat-card">
+                <h3>Available Leaves</h3>
+                <p id="availableLeaves">12</p>
+            </div>
+            <div class="stat-card">
+                <h3>Taken Leaves</h3>
+                <p id="takenLeaves">3</p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Requests</h3>
+                <p id="pendingLeaves">1</p>
+            </div>
+        </div>
+
+        <div class="leave-form-container">
+            <h2>Submit Leave Request</h2>
+            <form id="leaveForm" onsubmit="submitLeave(event)">
+                <div class="form-group">
+                    <label for="leaveType">Leave Type</label>
+                    <select id="leaveType" required>
+                        <option value="">Select Leave Type</option>
+                        <option value="casual">Casual Leave</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="personal">Personal Leave</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reason">Reason</label>
+                    <textarea id="reason" rows="4" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Request</button>
+            </form>
+        </div>
+
+        <div class="leave-history">
+            <h2>Leave History</h2>
+            <div class="history-container" id="leaveHistory">
+                <!-- Leave history will be populated here -->
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

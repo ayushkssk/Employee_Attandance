@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="profile.css">
+    <style>
+        :root {
+            --gradient-1: linear-gradient(135deg, #6366f1, #a855f7);
+            --gradient-2: linear-gradient(135deg, #3b82f6, #06b6d4);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8fafc;
+        }
+
+        .profile-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .id-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            background: var(--gradient-1);
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            margin: -75px auto 20px;
+            display: block;
+            box-shadow: var(--shadow);
+        }
+
+        .employee-info {
+            padding: 20px 40px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .info-label {
+            color: #64748b;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .rating {
+            color: #fbbf24;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        .strengths {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .strength-tag {
+            background: var(--gradient-2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .achievements {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .achievement-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .qr-code {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .edit-profile-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-profile-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="id-card">
+            <div class="card-header">
+                <img src="company-logo.png" alt="Company Logo" class="company-logo">
+                <h1>Employee ID Card</h1>
+                <button id="editProfileBtn" class="edit-profile-btn">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </button>
+            </div>
+            
+            <img src="profile-image.jpg" alt="Employee Photo" class="profile-image">
+            
+            <div class="employee-info">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Employee ID</div>
+                        <div class="info-value">EMP2024001</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Full Name</div>
+                        <div class="info-value">John Doe Smith</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Designation</div>
+                        <div class="info-value">Senior Developer</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Department</div>
+                        <div class="info-value">Information Technology</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Contact Number</div>
+                        <div class="info-value">+1 234-567-8900</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value">john.doe@company.com</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Date of Birth</div>
+                        <div class="info-value">15 March 1990</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Joining Date</div>
+                        <div class="info-value">01 January 2020</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Location</div>
+                        <div class="info-value">New York, USA</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Manager Rating</div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-item" style="margin-top: 20px;">
+                    <div class="info-label">Key Strengths</div>
+                    <div class="strengths">
+                        <span class="strength-tag">Team Leadership</span>
+                        <span class="strength-tag">Problem Solving</span>
+                        <span class="strength-tag">Communication</span>
+                        <span class="strength-tag">Innovation</span>
+                        <span class="strength-tag">Project Management</span>
+                    </div>
+                </div>
+
+                <div class="achievements">
+                    <h3>Recent Achievements</h3>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div>
+                            <h4>Employee of the Month</h4>
+                            <p>December 2023</p>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div>
+                            <h4>Best Team Player</h4>
+                            <p>Q4 2023</p>
+                        </div>
+                    </div>
+                </div>
+
+                <img src="qr-code.png" alt="Employee QR Code" class="qr-code">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
