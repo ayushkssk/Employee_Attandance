@@ -10,6 +10,8 @@
    <script src="leave-script.js"></script>
    <link rel="stylesheet" href="styles.css">
    <script src="script.js"></script>
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
    <style>
         :root {
             --primary-color: #4a90e2;
@@ -581,7 +583,9 @@
                 </div>
             </div>
             <div class="button-container">
-                <button id="check-in-button" class="button button-check-in">Check In</button>
+                <button id="check-in-button" class="button button-check-in" onclick="checkLocationAndMarkAttendance()">
+                    <i class="fas fa-sign-in-alt"></i> Check In
+                </button>
                 <button id="check-out-button" class="button button-check-out" disabled>Check Out</button>
             </div>
         </div>
