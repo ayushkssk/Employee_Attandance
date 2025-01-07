@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Office Attendance Inside</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="min-h-screen bg-base-200">
+    <div class="drawer lg:drawer-open">
+        <input id="drawer-toggle" type="checkbox" class="drawer-toggle" />
+        
+        <div class="drawer-content flex flex-col">
+            <!-- Navbar -->
+            <div class="navbar bg-base-100 shadow-lg sticky top-0 z-30">
+                <div class="flex-none lg:hidden">
+                    <label for="drawer-toggle" class="btn btn-square btn-ghost">
+                        <i class="fas fa-bars"></i>
+                    </label>
+                </div>
+                <div class="flex-1 px-2 mx-2">
+                    <span class="text-lg font-bold">Settings</span>
+                </div>
+                <div class="flex-none gap-2">
+                    <button class="btn btn-ghost btn-circle">
+                        <div class="indicator">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge badge-sm badge-primary indicator-item notification-badge">0</span>
+                        </div>
+                    </button>
+                    <div class="dropdown dropdown-end">
+                        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full">
+                                <img src="https://via.placeholder.com/40" alt="Profile" id="nav-profile-image" />
+                            </div>
+                        </label>
+                        <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                            <li><a href="profile.html"><i class="fas fa-user mr-2"></i>Profile</a></li>
+                            <li><a href="settings.html" class="active"><i class="fas fa-cog mr-2"></i>Settings</a></li>
+                            <li><a href="#"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <main class="flex-1 p-4">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Account Settings -->
+                    <div class="bg-base-100 rounded-box p-6 shadow-xl mb-6">
+                        <h2 class="text-xl font-bold mb-6">Account Settings</h2>
+                        <form id="account-settings-form" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">Email</span>
+                                    </label>
+                                    <input type="email" id="email" class="input input-bordered" value="john.doe@company.com" />
+                                </div>
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">Phone Number</span>
+                                    </label>
+                                    <input type="tel" id="phone" class="input input-bordered" value="+1 (555) 123-4567" />
+                                </div>
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">Current Password</span>
+                                    </label>
+                                    <input type="password" id="current-password" class="input input-bordered" />
+                                </div>
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">New Password</span>
+                                    </label>
+                                    <input type="password" id="new-password" class="input input-bordered" />
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="bg-base-100 rounded-box p-6 shadow-xl mb-6">
+                        <h2 class="text-xl font-bold mb-6">Notification Settings</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Email Notifications</h3>
+                                    <p class="text-sm opacity-70">Receive notifications via email</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-primary" checked />
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Desktop Notifications</h3>
+                                    <p class="text-sm opacity-70">Show desktop notifications</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-primary" checked />
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Leave Request Updates</h3>
+                                    <p class="text-sm opacity-70">Get notified about leave request status</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-primary" checked />
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Team Updates</h3>
+                                    <p class="text-sm opacity-70">Receive team activity notifications</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-primary" checked />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appearance Settings -->
+                    <div class="bg-base-100 rounded-box p-6 shadow-xl mb-6">
+                        <h2 class="text-xl font-bold mb-6">Appearance</h2>
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="font-medium mb-4">Theme</h3>
+                                <div class="flex flex-wrap gap-4">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="theme" value="light" class="hidden peer" checked />
+                                        <div class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">
+                                            <i class="fas fa-sun"></i>
+                                            <span>Light</span>
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="theme" value="dark" class="hidden peer" />
+                                        <div class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">
+                                            <i class="fas fa-moon"></i>
+                                            <span>Dark</span>
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="theme" value="system" class="hidden peer" />
+                                        <div class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">
+                                            <i class="fas fa-desktop"></i>
+                                            <span>System</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-medium mb-4">Color Scheme</h3>
+                                <div class="flex flex-wrap gap-4">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="color" value="blue" class="hidden peer" checked />
+                                        <div class="w-10 h-10 rounded-full bg-blue-500 border-4 peer-checked:border-base-content"></div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="color" value="purple" class="hidden peer" />
+                                        <div class="w-10 h-10 rounded-full bg-purple-500 border-4 peer-checked:border-base-content"></div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="color" value="green" class="hidden peer" />
+                                        <div class="w-10 h-10 rounded-full bg-green-500 border-4 peer-checked:border-base-content"></div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="color" value="red" class="hidden peer" />
+                                        <div class="w-10 h-10 rounded-full bg-red-500 border-4 peer-checked:border-base-content"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Schedule Settings -->
+                    <div class="bg-base-100 rounded-box p-6 shadow-xl mb-6">
+                        <h2 class="text-xl font-bold mb-6">Work Schedule</h2>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">Work Start Time</span>
+                                    </label>
+                                    <input type="time" class="input input-bordered" value="09:00" />
+                                </div>
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">Work End Time</span>
+                                    </label>
+                                    <input type="time" class="input input-bordered" value="17:00" />
+                                </div>
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Working Days</span>
+                                </label>
+                                <div class="flex flex-wrap gap-2">
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" class="hidden peer" checked />
+                                        <div class="px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">Mon</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" class="hidden peer" checked />
+                                        <div class="px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">Tue</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" class="hidden peer" checked />
+                                        <div class="px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">Wed</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" class="hidden peer" checked />
+                                        <div class="px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">Thu</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" class="hidden peer" checked />
+                                        <div class="px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">Fri</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" class="hidden peer" />
+                                        <div class="px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">Sat</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" class="hidden peer" />
+                                        <div class="px-4 py-2 rounded-lg border-2 peer-checked:border-primary peer-checked:text-primary">Sun</div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Time Zone</span>
+                                </label>
+                                <select class="select select-bordered">
+                                    <option value="UTC+5:30">India (UTC+5:30)</option>
+                                    <option value="UTC">UTC</option>
+                                    <option value="UTC-8">Pacific Time (UTC-8)</option>
+                                    <option value="UTC-5">Eastern Time (UTC-5)</option>
+                                    <option value="UTC+1">Central European Time (UTC+1)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Settings -->
+                    <div class="bg-base-100 rounded-box p-6 shadow-xl mb-6">
+                        <h2 class="text-xl font-bold mb-6">Privacy</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Profile Visibility</h3>
+                                    <p class="text-sm opacity-70">Make your profile visible to other team members</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-primary" checked />
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Show Online Status</h3>
+                                    <p class="text-sm opacity-70">Let others see when you're online</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-primary" checked />
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Activity Status</h3>
+                                    <p class="text-sm opacity-70">Share your activity status with team</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-primary" checked />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="bg-base-100 rounded-box p-6 shadow-xl">
+                        <h2 class="text-xl font-bold text-error mb-6">Danger Zone</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Delete Account</h3>
+                                    <p class="text-sm opacity-70">Permanently delete your account and all data</p>
+                                </div>
+                                <button class="btn btn-error" onclick="document.getElementById('delete-account-modal').showModal()">
+                                    Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="drawer-side z-40">
+            <label for="drawer-toggle" class="drawer-overlay"></label>
+            <aside class="bg-base-100 w-80 min-h-full">
+                <div class="p-4">
+                    <div class="flex items-center p-4 mb-4">
+                        <i class="fas fa-clock text-primary text-2xl mr-2"></i>
+                        <h1 class="text-xl font-bold">Attendance Inside</h1>
+                    </div>
+                    <ul class="menu menu-lg p-0">
+                        <li>
+                            <a href="index.html">
+                                <i class="fas fa-home"></i>Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="dashboard.html">
+                                <i class="fas fa-chart-bar"></i>Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="colleagues.html">
+                                <i class="fas fa-users"></i>Colleagues
+                            </a>
+                        </li>
+                        <li>
+                            <a href="profile.html">
+                                <i class="fas fa-user"></i>Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="leave-management.html">
+                                <i class="fas fa-calendar"></i>Leave Management
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <dialog id="delete-account-modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg text-error">Delete Account</h3>
+            <p class="py-4">Are you sure you want to delete your account? This action cannot be undone.</p>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Type "DELETE" to confirm</span>
+                </label>
+                <input type="text" id="delete-confirmation" class="input input-bordered" />
+            </div>
+            <div class="modal-action">
+                <button class="btn" onclick="document.getElementById('delete-account-modal').close()">Cancel</button>
+                <button class="btn btn-error" onclick="settingsManager.deleteAccount()">Delete Account</button>
+            </div>
+        </div>
+    </dialog>
+
+    <script type="module" src="settings.js"></script>
+</body>
+</html>

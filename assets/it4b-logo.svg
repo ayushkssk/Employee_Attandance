@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- IT4B Text -->
+    <text x="10" y="28" font-family="Poppins, sans-serif" font-size="24" font-weight="700" fill="#6366F1">
+        IT4B
+    </text>
+    <!-- .in Text -->
+    <text x="80" y="28" font-family="Poppins, sans-serif" font-size="24" font-weight="500" fill="#EC4899">
+        .in
+    </text>
+    <!-- Decorative Element -->
+    <path d="M5 35 H115" stroke="#6366F1" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    <!-- Innovation Technology for Business -->
+    <text x="60" y="45" font-family="Poppins, sans-serif" font-size="8" font-weight="400" fill="#6B7280" text-anchor="middle">
+        Innovation Technology for Business
+    </text>
+</svg>

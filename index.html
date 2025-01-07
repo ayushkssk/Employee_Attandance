@@ -1,829 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Office Attendance Inside</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   <link rel="stylesheet" href="leave-styles.css">
-   <script src="leave-script.js"></script>
-   <link rel="stylesheet" href="styles.css">
-   <script src="script.js"></script>
-   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-   <style>
-        :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #50c878;
-            --accent-color: #ff6b6b;
-            --background-color: #f0f4f8;
-            --text-color: #333;
-            --card-background: #ffffff;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-        }
-
-        body.dark-mode {
-            --background-color: #2c3e50;
-            --text-color: #ecf0f1;
-            --card-background: #34495e;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            flex-grow: 1;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: 10px 20px; /* Updated padding */
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h2, h3 {
-            font-weight: 700;
-        }
-
-        h1 {
-            margin: 0 10px; /* Updated margin */
-            font-size: 20px; /* Updated font size */
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 16px; /* Updated font size for smaller screens */
-            }
-        }
-
-
-        .menu-button, .theme-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .menu-button:hover, .theme-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        .greeting {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: colorChange 5s infinite alternate;
-        }
-
-        @keyframes colorChange {
-            0% {
-                filter: hue-rotate(0deg);
-            }
-            100% {
-                filter: hue-rotate(360deg);
-            }
-        }
-
-        .date {
-            font-size: 18px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: var(--accent-color);
-        }
-
-        .card {
-            background-color: var(--card-background);
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .card h2 {
-            margin-top: 0;
-            color: var(--primary-color);
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .attendance-summary {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .attendance-info {
-            text-align: center;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: 15px;
-            border-radius: 10px;
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .attendance-info:hover {
-            transform: scale(1.05);
-        }
-
-        .attendance-info p {
-            margin: 5px 0;
-        }
-
-        .time-display {
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 25px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 0 10px;
-        }
-
-        .button-check-in {
-            background-color: var(--secondary-color);
-        }
-
-        .button-check-out {
-            background-color: var(--accent-color);
-        }
-
-        .button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .button:active {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .dashboard {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-
-        .dashboard-item {
-            text-align: center;
-            flex: 1;
-            min-width: 200px;
-            margin: 10px;
-            padding: 20px;
-            background-color: var(--card-background);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .dashboard-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .dashboard-item h3 {
-            margin-top: 0;
-            color: var(--primary-color);
-        }
-
-        .dashboard-item p {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-        }
-
-        .calendar-header {
-            grid-column: 1 / -1;
-            text-align: center;
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--card-background);
-            border-radius: 50%;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .calendar-day:hover {
-            transform: scale(1.1);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .calendar-day.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .calendar-day.today {
-            border: 2px solid var(--accent-color);
-            font-weight: bold;
-        }
-
-        .calendar-day.checked-in {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-
-        .calendar-day.absent {
-            background-color: var(--accent-color);
-            color: white;
-        }
-
-        .side-menu {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            width: 300px;
-            height: 100%;
-            background-color: var(--card-background);
-            z-index: 1000;
-            transition: left 0.3s ease;
-            padding: 20px;
-            box-sizing: border-box;
-            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .side-menu.open {
-            left: 0;
-        }
-
-        .side-menu ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .side-menu li {
-            margin-bottom: 15px;
-        }
-
-        .side-menu a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-size: 18px;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .side-menu a:hover {
-            background-color: var(--primary-color);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-
-            .greeting {
-                font-size: 24px;
-            }
-
-            .date {
-                font-size: 16px;
-            }
-
-            .attendance-summary {
-                flex-direction: column;
-            }
-
-            .attendance-info {
-                margin-bottom: 20px;
-            }
-
-            .button-container {
-                flex-direction: column;
-            }
-
-            .button {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-
-            .dashboard {
-                flex-direction: column;
-            }
-
-            .dashboard-item {
-                margin-bottom: 20px;
-            }
-
-            .calendar-day {
-                font-size: 12px;
-            }
-        }
-
-        /* Popup styles */
-        .popup {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .popup-content {
-            background-color: var(--card-background);
-            margin: 15% auto;
-            padding: 20px;
-            border-radius: 15px;
-            width: 300px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .popup-content p {
-            margin-bottom: 20px;
-        }
-
-        .popup-content .button {
-            margin: 0 10px;
-        }
-
-        .calendar-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 0 10px;
-        }
-
-        .calendar-nav {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .calendar-nav:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        #calendar-header {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .calendar-day.day-header {
-            font-weight: bold;
-            color: var(--primary-color);
-            background-color: transparent;
-            box-shadow: none;
-        }
-
-        .calendar-day.empty {
-            background-color: transparent;
-            box-shadow: none;
-            cursor: default;
-        }
-
-        .calendar-day.empty:hover {
-            transform: none;
-        }
-
-        /* Add these styles for the sidebar */
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            background: #ffffff;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .logo {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        .menu {
-            list-style: none;
-            padding: 0;
-        }
-
-        .menu li {
-            margin-bottom: 10px;
-        }
-
-        .menu a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #333;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .menu a:hover {
-            background-color: #f0f4f8;
-        }
-
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-        }
-
-        .side-menu {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-        .main-menu {
-            margin-bottom: auto;
-        }
-
-        .logout-menu {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 20px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            padding-top: 20px;
-        }
-
-        .logout-menu a {
-            color: #e74c3c; /* Red color for logout */
-        }
-
-        .logout-menu a:hover {
-            background-color: #e74c3c;
-            color: white;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
-<body>
-    <header>
-        <button id="menu-button" class="menu-button"><i class="fas fa-bars"></i></button>
-        <h1>Attendance Inside</h1>
-        <button id="theme-toggle" class="theme-toggle"><i class="fas fa-moon"></i></button>
-    </header>
-
-    <div class="side-menu" id="side-menu">
-        <ul class="main-menu">
-            <li><a href="profile.html"><i class="fas fa-home"></i> Profile</a></li>
-            <li><a href="#"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
-            <li><a href="#"><i class="fas fa-chart-bar"></i> Reports</a></li>
-            <li><a href="leave-request.html"><i class="fas fa-calendar-plus"></i> Leave Request</a></li>
-            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-        </ul>
+<body class="min-h-screen bg-base-200">
+    <!-- Drawer component -->
+    <div class="drawer lg:drawer-open">
+        <input id="drawer-toggle" type="checkbox" class="drawer-toggle" />
         
-        <ul class="logout-menu">
-            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul>
-    </div>
-
-    <div class="overlay" id="overlay"></div>
-
-    <div class="container">
-        <div class="greeting">Welcome, Ayush</div>
-        <div class="date">Today is <span id="current-date"></span></div>
-
-        <div class="card">
-            <h2>Today's Attendance</h2>
-            <div class="attendance-summary">
-                <div class="attendance-info">
-                    <p>Check-In Time</p>
-                    <p class="time-display" id="check-in-time">--:--:--</p>
+        <!-- Page content -->
+        <div class="drawer-content flex flex-col">
+            <!-- Navbar -->
+            <div class="navbar bg-base-100 shadow-lg">
+                <div class="flex-none lg:hidden">
+                    <label for="drawer-toggle" class="btn btn-square btn-ghost">
+                        <i class="fas fa-bars"></i>
+                    </label>
                 </div>
-                <div class="attendance-info">
-                    <p>Check-Out Time</p>
-                    <p class="time-display" id="check-out-time">--:--:--</p>
+                <div class="flex-1">
+                    <a class="btn btn-ghost text-xl">
+                        <i class="fas fa-clock text-primary mr-2"></i>
+                        Attendance Inside
+                    </a>
                 </div>
-            </div>
-            <div class="button-container">
-                <button id="check-in-button" class="button button-check-in" onclick="checkLocationAndMarkAttendance()">
-                    <i class="fas fa-sign-in-alt"></i> Check In
-                </button>
-                <button id="check-out-button" class="button button-check-out" disabled>Check Out</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Work Summary</h2>
-            <div class="dashboard">
-                <div class="dashboard-item">
-                    <h3>Hours Worked</h3>
-                    <p>32 hours</p>
-                </div>
-                <div class="dashboard-item">
-                    <h3>Leave Balance</h3>
-                    <p>15 days</p>
-                </div>
-                <div class="dashboard-item">
-                    <h3>Overtime</h3>
-                    <p>5 hours</p>
-                </div>
-                <div class="dashboard-item">
-                    <h3>Productivity</h3>
-                    <p>92%</p>
+                <div class="flex-none gap-2">
+                    <div class="form-control hidden md:block">
+                        <div class="input-group">
+                            <input type="text" placeholder="Search..." class="input input-bordered" />
+                            <button class="btn btn-square">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-ghost btn-circle">
+                        <div class="indicator">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge badge-sm badge-primary indicator-item">3</span>
+                        </div>
+                    </button>
+                    <label class="swap swap-rotate btn btn-ghost btn-circle" id="theme-toggle">
+                        <input type="checkbox" />
+                        <i class="fas fa-sun swap-on"></i>
+                        <i class="fas fa-moon swap-off"></i>
+                    </label>
+                    <div class="dropdown dropdown-end">
+                        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full">
+                                <img src="https://via.placeholder.com/40" alt="Profile" />
+                            </div>
+                        </label>
+                        <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                            <li><a href="profile.html"><i class="fas fa-user mr-2"></i>Profile</a></li>
+                            <li><a href="settings.html"><i class="fas fa-cog mr-2"></i>Settings</a></li>
+                            <li><a href="#"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+
+            <!-- Main content -->
+            <main class="flex-1 p-4">
+                <!-- Hero section -->
+                <div class="hero min-h-[300px] bg-base-100 rounded-box shadow-lg mb-6">
+                    <div class="hero-content text-center">
+                        <div class="max-w-md">
+                            <h1 class="text-4xl font-bold mb-2">Welcome Back, John!</h1>
+                            <p class="text-xl mb-4" id="currentTime"></p>
+                            <p class="text-lg opacity-75 mb-6" id="currentDate"></p>
+                            <div class="flex flex-wrap justify-center gap-4">
+                                <button id="checkInButton" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt mr-2"></i>Check In
+                                </button>
+                                <button id="checkOutButton" class="btn btn-secondary" disabled>
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Check Out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                    <div class="stats shadow">
+                        <div class="stat">
+                            <div class="stat-figure text-primary">
+                                <i class="fas fa-clock text-3xl"></i>
+                            </div>
+                            <div class="stat-title">Today's Hours</div>
+                            <div class="stat-value" id="todayHours">0h 0m</div>
+                            <div class="stat-desc">Work duration today</div>
+                        </div>
+                    </div>
+                    <div class="stats shadow">
+                        <div class="stat">
+                            <div class="stat-figure text-secondary">
+                                <i class="fas fa-calendar-check text-3xl"></i>
+                            </div>
+                            <div class="stat-title">Week Attendance</div>
+                            <div class="stat-value" id="weekAttendance">80%</div>
+                            <div class="stat-desc">Last 7 days</div>
+                        </div>
+                    </div>
+                    <div class="stats shadow">
+                        <div class="stat">
+                            <div class="stat-figure text-accent">
+                                <i class="fas fa-stopwatch text-3xl"></i>
+                            </div>
+                            <div class="stat-title">Average Time</div>
+                            <div class="stat-value" id="avgTime">8h 30m</div>
+                            <div class="stat-desc">This month</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card bg-base-100 shadow-lg mb-6">
+                    <div class="card-body">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="card-title">Recent Activity</h2>
+                            <div class="tabs tabs-boxed">
+                                <a class="tab tab-active">Day</a>
+                                <a class="tab">Week</a>
+                                <a class="tab">Month</a>
+                            </div>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-item flex gap-4 mb-4">
+                                <div class="avatar placeholder">
+                                    <div class="bg-primary text-primary-content rounded-full w-12">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Check In</h4>
+                                    <p class="text-sm opacity-75">Today at 9:00 AM</p>
+                                    <span class="text-xs"><i class="fas fa-map-marker-alt mr-1"></i>Main Office</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <a href="leave-request.html" class="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
+                        <div class="card-body items-center text-center">
+                            <i class="fas fa-calendar-plus text-3xl text-primary mb-2"></i>
+                            <h3 class="card-title">Request Leave</h3>
+                            <p class="text-sm opacity-75">Apply for time off</p>
+                        </div>
+                    </a>
+                    <a href="team.html" class="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
+                        <div class="card-body items-center text-center">
+                            <i class="fas fa-users text-3xl text-secondary mb-2"></i>
+                            <h3 class="card-title">Team Schedule</h3>
+                            <p class="text-sm opacity-75">View team attendance</p>
+                        </div>
+                    </a>
+                    <a href="reports.html" class="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
+                        <div class="card-body items-center text-center">
+                            <i class="fas fa-chart-line text-3xl text-accent mb-2"></i>
+                            <h3 class="card-title">Reports</h3>
+                            <p class="text-sm opacity-75">View attendance reports</p>
+                        </div>
+                    </a>
+                    <a href="settings.html" class="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
+                        <div class="card-body items-center text-center">
+                            <i class="fas fa-cog text-3xl text-neutral mb-2"></i>
+                            <h3 class="card-title">Settings</h3>
+                            <p class="text-sm opacity-75">Manage preferences</p>
+                        </div>
+                    </a>
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer footer-center p-10 bg-base-100 text-base-content rounded">
+                <div class="grid grid-flow-col gap-4">
+                    <a href="https://it4b.in/about" target="_blank" class="link link-hover">About</a>
+                    <a href="https://it4b.in/contact" target="_blank" class="link link-hover">Contact</a>
+                    <a href="privacy.html" class="link link-hover">Privacy Policy</a>
+                    <a href="terms.html" class="link link-hover">Terms of use</a>
+                </div>
+                <div>
+                    <div class="grid grid-flow-col gap-4">
+                        <a href="https://twitter.com/it4b_in" target="_blank"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="https://www.linkedin.com/company/it4b-in" target="_blank"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="https://github.com/it4b-in" target="_blank"><i class="fab fa-github text-xl"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <p> 2025 Employee Attendance Inside - Developed by <a href="https://it4b.in" target="_blank" class="text-primary hover:underline">IT4B.in</a></p>
+                    <p class="text-sm opacity-70">Innovate Today, Transform Tomorrow</p>
+                    <div class="mt-2 flex items-center justify-center space-x-2">
+                        <span class="text-sm">Powered by</span>
+                        <a href="https://it4b.in" target="_blank" class="flex items-center hover:opacity-80">
+                            <img src="assets/it4b-logo.svg" alt="IT4B.in - Innovation Technology for Business" class="h-8 w-auto">
+                        </a>
+                    </div>
+                </div>
+            </footer>
         </div>
 
-        <div class="card">
-            <h2>Monthly Calendar</h2>
-            <div class="calendar-controls">
-                <button class="calendar-nav" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
-                <span id="calendar-header"></span>
-                <button class="calendar-nav" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="calendar" id="calendar"></div>
+        <!-- Sidebar content -->
+        <div class="drawer-side">
+            <label for="drawer-toggle" class="drawer-overlay"></label>
+            <aside class="bg-base-100 w-80 min-h-full">
+                <div class="p-4">
+                    <div class="flex items-center p-4 mb-4">
+                        <i class="fas fa-clock text-primary text-2xl mr-2"></i>
+                        <h1 class="text-xl font-bold">Attendance Inside</h1>
+                    </div>
+                    <ul class="menu menu-lg p-0">
+                        <li>
+                            <a href="index.html" class="active">
+                                <i class="fas fa-home"></i>Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="dashboard.html">
+                                <i class="fas fa-chart-bar"></i>Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="colleagues.html">
+                                <i class="fas fa-users"></i>Colleagues
+                            </a>
+                        </li>
+                        <li>
+                            <a href="profile.html">
+                                <i class="fas fa-user"></i>Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="leave-management.html">
+                                <i class="fas fa-calendar"></i>Leave Management
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-4 mt-auto">
+                    <div class="divider">Quick Settings</div>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text">Notifications</span>
+                            <input type="checkbox" class="toggle toggle-primary" checked />
+                        </label>
+                    </div>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text">Location Services</span>
+                            <input type="checkbox" class="toggle toggle-primary" checked />
+                        </label>
+                    </div>
+                </div>
+            </aside>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkInButton = document.getElementById('check-in-button');
-            const checkOutButton = document.getElementById('check-out-button');
-            const checkInTime = document.getElementById('check-in-time');
-            const checkOutTime = document.getElementById('check-out-time');
-            const menuButton = document.getElementById('menu-button');
-            const sideMenu = document.getElementById('side-menu');
-            const overlay = document.getElementById('overlay');
-            const themeToggle = document.getElementById('theme-toggle');
-            const body = document.body;
-            const currentDateElement = document.getElementById('current-date');
-            const calendarElement = document.getElementById('calendar');
-
-            let attendanceData = {};
-
-            let currentDisplayMonth = new Date().getMonth();
-            let currentDisplayYear = new Date().getFullYear();
-
-            function formatTime(date) {
-                return date.toLocaleTimeString('en-US', { hour12: false });
-            }
-
-            function updateCurrentDate() {
-                
-                const now = new Date();
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                currentDateElement.textContent = now.toLocaleDateString('en-US', options);
-            }
-
-            function createCalendar() {
-                const firstDay = new Date(currentDisplayYear, currentDisplayMonth, 1);
-                const lastDay = new Date(currentDisplayYear, currentDisplayMonth + 1, 0);
-                const daysInMonth = lastDay.getDate();
-                const today = new Date();
-
-                const monthNames = ["January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"];
-
-                document.getElementById('calendar-header').textContent = 
-                    `${monthNames[currentDisplayMonth]} ${currentDisplayYear}`;
-
-                calendarElement.innerHTML = '';
-                
-                // Add day headers
-                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                days.forEach(day => {
-                    const dayHeader = document.createElement('div');
-                    dayHeader.classList.add('calendar-day', 'day-header');
-                    dayHeader.textContent = day;
-                    calendarElement.appendChild(dayHeader);
-                });
-
-                // Add empty cells for days before the first day of the month
-                for (let i = 0; i < firstDay.getDay(); i++) {
-                    const emptyDay = document.createElement('div');
-                    emptyDay.classList.add('calendar-day', 'empty');
-                    calendarElement.appendChild(emptyDay);
-                }
-
-                // Add the days of the month
-                for (let i = 1; i <= daysInMonth; i++) {
-                    const dayElement = document.createElement('div');
-                    dayElement.classList.add('calendar-day');
-                    dayElement.textContent = i;
-
-                    // Check if this is today's date
-                    if (i === today.getDate() && 
-                        currentDisplayMonth === today.getMonth() && 
-                        currentDisplayYear === today.getFullYear()) {
-                        dayElement.classList.add('today');
-                    }
-
-                    // Add attendance status
-                    const dateString = `${currentDisplayYear}-${(currentDisplayMonth + 1)
-                        .toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
-                    
-                    if (attendanceData[dateString]) {
-                        dayElement.classList.add('checked-in');
-                    } else if (new Date(currentDisplayYear, currentDisplayMonth, i) < today) {
-                        dayElement.classList.add('absent');
-                    }
-
-                    calendarElement.appendChild(dayElement);
-                }
-            }
-
-            function showConfirmation(action) {
-                const popup = document.getElementById('confirmationPopup');
-                const message = document.getElementById('confirmationMessage');
-                const confirmYes = document.getElementById('confirmYes');
-                const confirmNo = document.getElementById('confirmNo');
-
-                message.textContent = `Are you sure you want to ${action}?`;
-                popup.style.display = 'block';
-
-                confirmYes.onclick = function() {
-                    popup.style.display = 'none';
-                    if (action === 'check in') {
-                        performCheckIn();
-                    } else {
-                        performCheckOut();
-                    }
-                };
-
-                confirmNo.onclick = function() {
-                    popup.style.display = 'none';
-                };
-            }
-
-            function performCheckIn() {
-                const now = new Date();
-                const checkInTimeStr = formatTime(now);
-                checkInTime.textContent = checkInTimeStr;
-                checkInButton.disabled = true;
-                checkOutButton.disabled = false;
-
-                const dateString = now.toISOString().split('T')[0];
-                attendanceData[dateString] = { checkIn: checkInTimeStr };
-                createCalendar();
-            }
-
-            function performCheckOut() {
-                const now = new Date();
-                const checkOutTimeStr = formatTime(now);
-                checkOutTime.textContent = checkOutTimeStr;
-                checkOutButton.disabled = true;
-                checkInButton.disabled = false;
-
-                const dateString = now.toISOString().split('T')[0];
-                if (attendanceData[dateString]) {
-                    attendanceData[dateString].checkOut = checkOutTimeStr;
-                }
-                createCalendar();
-            }
-
-            checkInButton.addEventListener('click', function() {
-                showConfirmation('check in');
-            });
-
-            checkOutButton.addEventListener('click', function() {
-                showConfirmation('check out');
-            });
-
-            menuButton.addEventListener('click', function() {
-                sideMenu.classList.toggle('open');
-                overlay.style.display = sideMenu.classList.contains('open') ? 'block' : 'none';
-            });
-
-            overlay.addEventListener('click', function() {
-                sideMenu.classList.remove('open');
-                overlay.style.display = 'none';
-            });
-
-            themeToggle.addEventListener('click', function() {
-                body.classList.toggle('dark-mode');
-                const icon = themeToggle.querySelector('i');
-                icon.classList.toggle('fa-moon');
-                icon.classList.toggle('fa-sun');
-            });
-
-            updateCurrentDate();
-            setInterval(updateCurrentDate, 60000); // Update every minute
-
-            createCalendar();
-
-            window.addEventListener('click', function(event) {
-                const popup = document.getElementById('confirmationPopup');
-                if (event.target === popup) {
-                    popup.style.display = 'none';
-                }
-            });
-
-            document.getElementById('prevMonth').addEventListener('click', () => {
-                currentDisplayMonth--;
-                if (currentDisplayMonth < 0) {
-                    currentDisplayMonth = 11;
-                    currentDisplayYear--;
-                }
-                createCalendar();
-            });
-
-            document.getElementById('nextMonth').addEventListener('click', () => {
-                currentDisplayMonth++;
-                if (currentDisplayMonth > 11) {
-                    currentDisplayMonth = 0;
-                    currentDisplayYear++;
-                }
-                createCalendar();
-            });
-        });
-    </script>
-    <div id="confirmationPopup" class="popup">
-        <div class="popup-content">
-            <p id="confirmationMessage"></p>
-            <button id="confirmYes" class="button button-check-in">Yes</button>
-            <button id="confirmNo" class="button button-check-out">No</button>
-        </div>
-    </div>
-    <div style="text-align: center; padding: 20px; color: var(--text-color); font-size: 14px; margin-top: auto;">
-        Developed By <a href="https://it4b.in" style="color: var(--primary-color); text-decoration: none;">@Ayush (IT4B.in)</a>
-    </div>
+    <script type="module" src="attendance.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

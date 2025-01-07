@@ -1,3 +1,279 @@
+class ProfileManager {
+    constructor() {
+        this.initializeProfile();
+        this.initializeCharts();
+        this.bindEvents();
+    }
+
+    initializeProfile() {
+        // Load profile data (simulated)
+        this.profileData = {
+            name: 'John Doe',
+            title: 'Senior Software Engineer',
+            department: 'Engineering Department',
+            email: 'john.doe@company.com',
+            phone: '+1 (555) 123-4567',
+            dob: 'January 15, 1990',
+            location: 'San Francisco, CA',
+            skills: [
+                'JavaScript', 'React', 'Node.js', 'Python',
+                'AWS', 'Docker', 'Git', 'Agile',
+                'Team Leadership', 'Problem Solving'
+            ],
+            schedule: [
+                { day: 'Monday', hours: '9:00 AM - 5:00 PM' },
+                { day: 'Tuesday', hours: '9:00 AM - 5:00 PM' },
+                { day: 'Wednesday', hours: '9:00 AM - 5:00 PM' },
+                { day: 'Thursday', hours: '9:00 AM - 5:00 PM' },
+                { day: 'Friday', hours: '9:00 AM - 5:00 PM' }
+            ],
+            activities: [
+                {
+                    type: 'attendance',
+                    description: 'Checked in for the day',
+                    time: '9:00 AM',
+                    date: '2024-01-07'
+                },
+                {
+                    type: 'project',
+                    description: 'Completed Sprint Planning',
+                    time: '10:30 AM',
+                    date: '2024-01-07'
+                },
+                {
+                    type: 'meeting',
+                    description: 'Team Sync Meeting',
+                    time: '2:00 PM',
+                    date: '2024-01-07'
+                },
+                {
+                    type: 'achievement',
+                    description: 'Completed Project Milestone',
+                    time: '4:30 PM',
+                    date: '2024-01-06'
+                }
+            ],
+            projects: [
+                {
+                    name: 'Employee Portal Redesign',
+                    progress: 75,
+                    deadline: '2024-02-15',
+                    status: 'in-progress'
+                },
+                {
+                    name: 'API Integration',
+                    progress: 90,
+                    deadline: '2024-01-20',
+                    status: 'review'
+                },
+                {
+                    name: 'Mobile App Development',
+                    progress: 30,
+                    deadline: '2024-03-01',
+                    status: 'in-progress'
+                }
+            ]
+        };
+
+        this.updateUI();
+    }
+
+    updateUI() {
+        // Update profile information
+        document.getElementById('profile-name').textContent = this.profileData.name;
+        document.getElementById('profile-title').textContent = this.profileData.title;
+        document.getElementById('profile-department').textContent = this.profileData.department;
+        document.getElementById('profile-email').textContent = this.profileData.email;
+        document.getElementById('profile-phone').textContent = this.profileData.phone;
+        document.getElementById('profile-dob').textContent = this.profileData.dob;
+        document.getElementById('profile-location').textContent = this.profileData.location;
+
+        // Update skills
+        this.updateSkills();
+
+        // Update schedule
+        this.updateSchedule();
+
+        // Update activity timeline
+        this.updateActivityTimeline();
+
+        // Update projects
+        this.updateProjects();
+    }
+
+    updateSkills() {
+        const container = document.getElementById('skills-container');
+        container.innerHTML = this.profileData.skills.map(skill => `
+            <div class="badge badge-primary badge-lg">${skill}</div>
+        `).join('');
+
+        const editContainer = document.getElementById('edit-skills-container');
+        if (editContainer) {
+            editContainer.innerHTML = this.profileData.skills.map(skill => `
+                <div class="badge badge-primary badge-lg gap-2">
+                    ${skill}
+                    <button onclick="profileManager.removeSkill('${skill}')" class="btn btn-ghost btn-xs">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+    }
+
+    updateSchedule() {
+        const container = document.getElementById('schedule-container');
+        container.innerHTML = this.profileData.schedule.map(schedule => `
+            <div class="flex justify-between items-center">
+                <span class="font-medium">${schedule.day}</span>
+                <span class="text-sm opacity-75">${schedule.hours}</span>
+            </div>
+        `).join('');
+    }
+
+    updateActivityTimeline() {
+        const container = document.getElementById('activity-timeline');
+        container.innerHTML = this.profileData.activities.map(activity => `
+            <div class="flex items-start gap-4">
+                <div class="flex-none">
+                    ${this.getActivityIcon(activity.type)}
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium">${activity.description}</p>
+                    <p class="text-sm opacity-70">${activity.time} - ${activity.date}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    updateProjects() {
+        const container = document.getElementById('projects-container');
+        container.innerHTML = this.profileData.projects.map(project => `
+            <div class="card bg-base-200">
+                <div class="card-body">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="card-title">${project.name}</h4>
+                            <p class="text-sm opacity-75">Deadline: ${project.deadline}</p>
+                        </div>
+                        <div class="badge badge-${this.getStatusBadge(project.status)}">
+                            ${this.formatStatus(project.status)}
+                        </div>
+                    </div>
+                    <progress class="progress progress-primary w-full" value="${project.progress}" max="100"></progress>
+                    <div class="text-sm text-right">${project.progress}%</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    initializeCharts() {
+        const ctx = document.getElementById('performance-chart').getContext('2d');
+        this.performanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Performance Score',
+                    data: [85, 88, 92, 90, 95, 93],
+                    fill: true,
+                    backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                    borderColor: 'rgb(147, 51, 234)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    }
+
+    bindEvents() {
+        // Profile image upload
+        const profileUpload = document.getElementById('profile-upload');
+        if (profileUpload) {
+            profileUpload.addEventListener('change', (e) => this.handleProfileImageUpload(e));
+        }
+
+        // Skill input
+        const skillInput = document.getElementById('skill-input');
+        if (skillInput) {
+            skillInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.addSkill();
+                }
+            });
+        }
+    }
+
+    handleProfileImageUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('main-profile-image').src = e.target.result;
+                document.getElementById('nav-profile-image').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    editSkills() {
+        document.getElementById('edit-skills-modal').showModal();
+    }
+
+    addSkill() {
+        const input = document.getElementById('skill-input');
+        const skill = input.value.trim();
+        
+        if (skill && !this.profileData.skills.includes(skill)) {
+            this.profileData.skills.push(skill);
+            this.updateSkills();
+            input.value = '';
+        }
+    }
+
+    removeSkill(skill) {
+        this.profileData.skills = this.profileData.skills.filter(s => s !== skill);
+        this.updateSkills();
+    }
+
+    getActivityIcon(type) {
+        const icons = {
+            'attendance': '<div class="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center"><i class="fas fa-clock text-success"></i></div>',
+            'project': '<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center"><i class="fas fa-project-diagram text-primary"></i></div>',
+            'meeting': '<div class="w-8 h-8 rounded-full bg-info/20 flex items-center justify-center"><i class="fas fa-users text-info"></i></div>',
+            'achievement': '<div class="w-8 h-8 rounded-full bg-warning/20 flex items-center justify-center"><i class="fas fa-trophy text-warning"></i></div>'
+        };
+        return icons[type] || '';
+    }
+
+    getStatusBadge(status) {
+        const badges = {
+            'in-progress': 'primary',
+            'review': 'warning',
+            'completed': 'success',
+            'on-hold': 'error'
+        };
+        return badges[status] || 'ghost';
+    }
+
+    formatStatus(status) {
+        return status.split('-').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+    }
+}
+
+// Initialize profile manager
+const profileManager = new ProfileManager();
+export default profileManager;
+
 document.addEventListener('DOMContentLoaded', function() {
     const editProfileBtn = document.getElementById('editProfileBtn');
     const profileContainer = document.querySelector('.profile-container');

@@ -1,40 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leave Management</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="leave-styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Leave Management - Office Attendance Inside</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
-<body>
-    <!-- Include the sidebar -->
-    <div class="sidebar">
-        <!-- Sidebar content from above -->
+<body class="min-h-screen bg-base-200">
+    <div class="drawer lg:drawer-open">
+        <input id="drawer-toggle" type="checkbox" class="drawer-toggle" />
+        
+        <div class="drawer-content flex flex-col">
+            <!-- Navbar -->
+            <div class="navbar bg-base-100 shadow-lg sticky top-0 z-30">
+                <div class="flex-none lg:hidden">
+                    <label for="drawer-toggle" class="btn btn-square btn-ghost">
+                        <i class="fas fa-bars"></i>
+                    </label>
+                </div>
+                <div class="flex-1 px-2 mx-2">
+                    <span class="text-lg font-bold">Leave Management</span>
+                </div>
+                <div class="flex-none gap-2">
+                    <button class="btn btn-ghost btn-circle">
+                        <div class="indicator">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge badge-sm badge-primary indicator-item notification-badge">0</span>
+                        </div>
+                    </button>
+                    <div class="dropdown dropdown-end">
+                        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full">
+                                <img src="https://via.placeholder.com/40" alt="Profile" />
+                            </div>
+                        </label>
+                        <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                            <li><a href="profile.html"><i class="fas fa-user mr-2"></i>Profile</a></li>
+                            <li><a href="settings.html"><i class="fas fa-cog mr-2"></i>Settings</a></li>
+                            <li><a href="#"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <main class="flex-1 p-4">
+                <!-- Leave Balance Summary -->
+                <div class="stats shadow w-full mb-6">
+                    <div class="stat">
+                        <div class="stat-title">Annual Leave Balance</div>
+                        <div class="stat-value text-primary" id="annual-leave-balance">12</div>
+                        <div class="stat-desc">Days remaining</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-title">Sick Leave Balance</div>
+                        <div class="stat-value text-secondary" id="sick-leave-balance">7</div>
+                        <div class="stat-desc">Days remaining</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-title">Pending Requests</div>
+                        <div class="stat-value text-accent" id="pending-requests">1</div>
+                        <div class="stat-desc">Awaiting approval</div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <button class="btn btn-primary" onclick="document.getElementById('leave-request-modal').showModal()">
+                        <i class="fas fa-plus mr-2"></i>New Leave Request
+                    </button>
+                    <button class="btn btn-ghost" onclick="document.getElementById('leave-history-modal').showModal()">
+                        <i class="fas fa-history mr-2"></i>View History
+                    </button>
+                </div>
+
+                <!-- Leave Requests Table -->
+                <div class="bg-base-100 rounded-lg shadow-xl p-6">
+                    <h2 class="text-xl font-bold mb-4">Recent Leave Requests</h2>
+                    <div class="overflow-x-auto">
+                        <table class="table table-zebra">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Days</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leave-requests-table">
+                                <!-- Leave requests will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="drawer-side z-40">
+            <label for="drawer-toggle" class="drawer-overlay"></label>
+            <aside class="bg-base-100 w-80 min-h-full">
+                <div class="p-4">
+                    <div class="flex items-center p-4 mb-4">
+                        <i class="fas fa-clock text-primary text-2xl mr-2"></i>
+                        <h1 class="text-xl font-bold">Attendance Inside</h1>
+                    </div>
+                    <ul class="menu menu-lg p-0">
+                        <li>
+                            <a href="index.html">
+                                <i class="fas fa-home"></i>Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="dashboard.html">
+                                <i class="fas fa-chart-bar"></i>Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="colleagues.html">
+                                <i class="fas fa-users"></i>Colleagues
+                            </a>
+                        </li>
+                        <li>
+                            <a href="profile.html">
+                                <i class="fas fa-user"></i>Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="leave-management.html" class="active">
+                                <i class="fas fa-calendar"></i>Leave Management
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
     </div>
 
-    <div class="main-content">
-        <div class="page-header">
-            <h1>Leave Management</h1>
-            <button class="new-leave-btn" onclick="openLeaveModal()">
-                <i class="fas fa-plus"></i> New Leave Request
-            </button>
+    <!-- Leave Request Modal -->
+    <dialog id="leave-request-modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4">New Leave Request</h3>
+            <form id="leave-request-form" class="space-y-4">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Leave Type</span>
+                    </label>
+                    <select class="select select-bordered" name="leaveType" required>
+                        <option value="">Select leave type</option>
+                        <option value="annual">Annual Leave</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="unpaid">Unpaid Leave</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Date Range</span>
+                    </label>
+                    <input type="text" class="input input-bordered" id="date-range" name="dateRange" placeholder="Select dates" required />
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Reason</span>
+                    </label>
+                    <textarea class="textarea textarea-bordered h-24" name="reason" placeholder="Enter reason for leave" required></textarea>
+                </div>
+                <div class="modal-action">
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                    <button type="button" class="btn" onclick="document.getElementById('leave-request-modal').close()">Cancel</button>
+                </div>
+            </form>
         </div>
+    </dialog>
 
-        <!-- Your existing leave management content -->
-        <div class="leave-stats">
-            <!-- Leave statistics -->
+    <!-- Leave History Modal -->
+    <dialog id="leave-history-modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="font-bold text-lg mb-4">Leave History</h3>
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Days</th>
+                            <th>Status</th>
+                            <th>Approved By</th>
+                            <th>Approved On</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leave-history-table">
+                        <!-- Leave history will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-action">
+                <button class="btn" onclick="document.getElementById('leave-history-modal').close()">Close</button>
+            </div>
         </div>
+    </dialog>
 
-        <div class="leave-history">
-            <!-- Leave history -->
-        </div>
-
-        <!-- Leave request modal -->
-        <div id="leaveModal" class="modal">
-            <!-- Your existing leave form -->
-        </div>
-    </div>
+    <script type="module" src="leave-management.js"></script>
 </body>
-</html> 
+</html>
